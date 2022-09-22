@@ -1,4 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
+require("dotenv").config(); 
 
 // A hardhat task that is manually created
 task("accounts","Prints the list of accounts", async (taskArgs,hre) => {
@@ -13,4 +14,14 @@ task("accounts","Prints the list of accounts", async (taskArgs,hre) => {
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.17",
+  networks: {
+    goerli: {
+      url: process.env.STAGING_QUICKNODE_KEY, 
+      accounts: [process.env.PRIVATE_KEY]
+    }, 
+    mainnet: {
+      url: process.env.PROD_QUICKNODE_KEY, 
+      accounts: [process.env.PRIVATE_KEY]
+    }
+  }
 };
