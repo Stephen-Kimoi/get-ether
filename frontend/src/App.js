@@ -1,3 +1,4 @@
+import { ethers } from "hardhat";
 import * as React from "react";
 // import { ethers } from "ethers";
 import { useEffect, useState } from "react";
@@ -8,6 +9,8 @@ export default function App() {
   const [currentAccount, setCurrentAccount] = useState("");
   const [loading, setLoading] = useState(false);  
   const [sucessfull, setSucessfull] = useState(false); 
+  const [allWaves, setAllWaves] = useState([]); 
+  const contractAddress = "0x1ad9d4269E0Ce5b4c30483244c261F31fbD5b6f5"; 
 
   const wave = () => {
     console.log(233344)
@@ -73,6 +76,47 @@ export default function App() {
   useEffect( () => {
     checkIfWalletisConnected(); 
   }, [])
+
+  // Function that gets all the waves 
+  const getAllWaves = async () => {
+    try {
+      const { ethereum } = window; 
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum); 
+        const signer = provider.getSigner(); 
+        const WavePortalContract = new ethers.Contract(contractAddress, contractABI, signer); 
+
+        // Calling getAllWaves() method from the smart contract 
+        const waves = await WavePortalContract.getAllWaves(); 
+
+        // Picking address, timestamp and message that will be shown in the UI
+        let wavesCleaned = []; 
+        waves.forEach( wave => {
+          wavesCleaned.push({
+            address: wave.waver, 
+            timestamp: new Date(wave.timestamp * 1000), 
+            message: wave.message
+          }); 
+        }); 
+        // Store the data in react state 
+        setAllWaves(wavesCleaned); 
+      } else {
+        console.log("Ethereum objec does not exist")
+      }
+    } catch (error) {
+        console.log(error)
+    }
+  }
+
+  const wavesDisplay = allWaves.map( (wave, index) => {
+    return (
+      <div key={index} style={{ backgroundColor: "OldLace", marginTop: "16px", padding: "8px" }}>
+          <div>Address: {wave.address}</div> 
+          <div>Time: {wave.timestamp.toString()}</div> 
+          <div>Message: {wave.message}</div>
+      </div>
+    )
+  })
   
   return (
     <div className="mainContainer">
