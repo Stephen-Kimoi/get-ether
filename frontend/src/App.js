@@ -6,7 +6,8 @@ import './App.css';
 
 export default function App() {
   const [currentAccount, setCurrentAccount] = useState("");
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);  
+  const [sucessfull, setSucessfull] = useState(false); 
 
   const wave = () => {
     console.log(233344)
@@ -39,7 +40,7 @@ export default function App() {
   } 
 
   const connectWallet = async () => {
-    setLoading(!loading)
+    setLoading(true)
     try {
       const { ethereum } = window; 
 
@@ -52,10 +53,21 @@ export default function App() {
 
       console.log("Connected: ", accounts[0]); 
       setCurrentAccount(accounts[0]); 
+      setLoading(false); 
+
     } catch(error) {
-      console.log(error)
+      console.log(error); 
+      setLoading(false); 
     }
-    setLoading(!loading)
+
+    setSucessfull(false)
+
+    setTimeout( () => {
+      setSucessfull(true); 
+    }, 3000); 
+
+    setSucessfull(false); 
+
   }
 
   useEffect( () => {
@@ -85,12 +97,19 @@ export default function App() {
               <button className="waveButton" onClick={connectWallet}>
                  connect wallet
               </button>
-            )
-          )     
+          )      
+          )
         }
         {
           loading && (
             <ReactLoading className="loader" type="spin" color="black" height={20} width={70} /> 
+          )
+        }
+        {
+          sucessfull && (
+            <div>
+              Wallet connected sucessfully
+            </div>
           )
         }
       </div>
