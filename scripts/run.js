@@ -9,14 +9,17 @@ const main = async () => {
 
     let waveCount; 
     waveCount = await waveContract.getTotalWaves(); 
+    console.log(waveCount.toNumber()); 
 
-    let waveTxn = await waveContract.wave(); 
+
+    let waveTxn = await waveContract.wave("This is the first message"); 
+    await waveTxn.wait(); // Waits for the transaction to be mined
+
+    waveTxn = await waveContract.connect(randomPerson).wave("A random person just waved"); 
     await waveTxn.wait(); 
 
-    waveCount = await waveContract.getTotalWaves(); 
-
-    waveTxn = await waveContract.connect(randomPerson).wave(); 
-    await waveTxn.wait(); 
+    let allWaves = await waveContract.getAllWaves(); 
+    console.log(allWaves); 
 
     waveCount = await waveContract.getTotalWaves(); 
 }
