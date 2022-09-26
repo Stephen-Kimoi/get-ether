@@ -11,7 +11,7 @@ export default function App() {
   const [sucessfull, setSucessfull] = useState(false); 
   const [allWaves, setAllWaves] = useState([]); 
 
-  const contractAddress = "0x1ad9d4269E0Ce5b4c30483244c261F31fbD5b6f5"; 
+  const contractAddress = "0x530Cf5E8cD23A83B60496B6A6675cC10BbDB82D0"; 
   const contractABI = abi; 
 
   const wave = async () => {
