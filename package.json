@@ -6,7 +6,8 @@
   "scripts": {
     "localHostDeploy": "npx hardhat run scripts/deploy.js --network localhost",
     "deploy": "npx hardhat run scripts/deploy.js --network goerli",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1", 
+    "runTest": "npx hardhat run scripts/run.js"
   },
   "keywords": [],
   "author": "",
