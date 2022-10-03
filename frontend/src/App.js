@@ -1,4 +1,4 @@
-import { ethers } from "hardhat";
+import { ethers } from "ethers";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import ReactLoading from 'react-loading'; 
@@ -10,9 +10,10 @@ export default function App() {
   const [loading, setLoading] = useState(false);  
   const [sucessfull, setSucessfull] = useState(false); 
   const [allWaves, setAllWaves] = useState([]); 
+  const [mining, setMining] = useState(false); 
 
-  const contractAddress = "0x1ad9d4269E0Ce5b4c30483244c261F31fbD5b6f5"; 
-  const contractABI = abi.abi; 
+  const contractAddress = "0x3412b425Cd05968DF71119C2B02deDe6e6CEDDA2"; 
+  const contractABI = abi; 
 
   const wave = async () => {
     try {
@@ -27,13 +28,31 @@ export default function App() {
         let count = await wavePortalContract.getTotalWaves(); 
         console.log("Retrieved total wave count: ", count.toNumber()); 
 
+        // Executing actual wave from the smart contract
+        setLoading(true); 
+        const waveTxn = await wavePortalContract.wave("This is my first wave from a frontend!"); 
+        setLoading(false); 
+        setMining(true); 
+        console.log("Mining...", waveTxn.hash); 
+        
+        await waveTxn.wait(); 
+        console.log("Mined ---", waveTxn.hash); 
+        setMining(false); 
+
+        // Retrieve the total waves
+        setLoading(true); 
+        count = await wavePortalContract.getTotalWaves(); 
+        setLoading(false); 
+        console.log("Total waves are equal to: ", count); 
+
+        console.log("Ethereum object exists"); 
+        console.log("Retrieved a total of: ", count.toNumber(), " waves"); 
+
       } else {
         console.log("Ethereum object does not exist"); 
       }
     } catch (error) {
-        console.log(error); 
     }
-    console.log("Wave")
   }
 
   const checkIfWalletisConnected = async () => { 
@@ -43,7 +62,7 @@ export default function App() {
       if (!ethereum) {
         console.log("Make sure you have metamask!")
       } else {
-        console.log("Ethereum from window object is found! ", ethereum)
+        console.log("Ethereum from window object is found! "); 
       }
 
       // See if we have authorization to the users wallet 
@@ -53,6 +72,7 @@ export default function App() {
 
         console.log("Found an authorized account: ", account); 
         setCurrentAccount(account); 
+        getAllWaves(); 
 
       } else {
         console.log("No authorized account found"); 
@@ -82,14 +102,12 @@ export default function App() {
       console.log(error); 
       setLoading(false); 
     }
-
-    setSucessfull(false)
+    
+    setSucessfull(true); 
 
     setTimeout( () => {
-      setSucessfull(true); 
+      setSucessfull(false); 
     }, 3000); 
-
-    setSucessfull(false); 
 
   }
 
@@ -107,7 +125,9 @@ export default function App() {
         const WavePortalContract = new ethers.Contract(contractAddress, contractABI, signer); 
 
         // Calling getAllWaves() method from the smart contract 
+        setLoading(true); 
         const waves = await WavePortalContract.getAllWaves(); 
+        setLoading(false); 
 
         // Picking address, timestamp and message that will be shown in the UI
         let wavesCleaned = []; 
@@ -120,6 +140,7 @@ export default function App() {
         }); 
         // Store the data in react state 
         setAllWaves(wavesCleaned); 
+        console.log(wavesCleaned); 
       } else {
         console.log("Ethereum objec does not exist")
       }
@@ -170,9 +191,17 @@ export default function App() {
           )
         }
         {
+          mining && (
+           <div className="mining-div">
+              <p>Mining</p>
+              <ReactLoading className="loader" type="bubbles" color="black" height={10} width={70} /> 
+           </div>
+          )
+        }
+        {
           sucessfull && (
-            <div>
-              Wallet connected sucessfully
+            <div className="successfull">
+              Wallet connected sucessfully!
             </div>
           )
         }
