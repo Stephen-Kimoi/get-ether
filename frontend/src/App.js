@@ -12,7 +12,7 @@ export default function App() {
   const [allWaves, setAllWaves] = useState([]); 
   const [mining, setMining] = useState(false); 
 
-  const contractAddress = "0x4b7f8EFDa5F1DB6e15bc0f4701aa81b7EAD7C8A6"; 
+  const contractAddress = "0x3412b425Cd05968DF71119C2B02deDe6e6CEDDA2"; 
   const contractABI = abi; 
 
   const wave = async () => {
