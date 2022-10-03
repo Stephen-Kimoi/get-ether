@@ -30,7 +30,7 @@ contract WavePortal {
 
         emit NewWave(msg.sender,block.timestamp,_message); 
 
-        uint256 prizeAmount = 0.001 ether; 
+        uint256 prizeAmount = 0.0001 ether; 
         require(
            prizeAmount <= address(this).balance, 
            "Insufficient funds in your contract to give a prize!"
