@@ -10,6 +10,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);  
   const [sucessfull, setSucessfull] = useState(false); 
   const [allWaves, setAllWaves] = useState([]); 
+  const [mining, setMining] = useState(false); 
 
   const contractAddress = "0x4b7f8EFDa5F1DB6e15bc0f4701aa81b7EAD7C8A6"; 
   const contractABI = abi; 
@@ -32,10 +33,12 @@ export default function App() {
         setLoading(true); 
         const waveTxn = await wavePortalContract.wave("This is my first wave from a frontend!"); 
         setLoading(false); 
+        setMining(true); 
         console.log("Mining...", waveTxn.hash); 
         
         await waveTxn.wait(); 
         console.log("Mined ---", waveTxn.hash); 
+        setMining(false); 
 
         // Retrieve the total waves
         setLoading(true); 
@@ -187,6 +190,14 @@ export default function App() {
         {
           loading && (
             <ReactLoading className="loader" type="spin" color="black" height={20} width={70} /> 
+          )
+        }
+        {
+          mining && (
+           <div className="mining-div">
+              <p>Mining</p>
+              <ReactLoading className="loader" type="bubbles" color="black" height={10} width={70} /> 
+           </div>
           )
         }
         {
