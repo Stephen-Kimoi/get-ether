@@ -30,7 +30,7 @@ export default function App() {
 
         // Executing actual wave from the smart contract
         setLoading(true); 
-        const waveTxn = await wavePortalContract.wave("This is my first wave from a frontend!"); 
+        const waveTxn = await wavePortalContract.wave("This is my first wave from a frontend!", { gasLimit: 300000 }); 
         setLoading(false); 
         setMining(true); 
         console.log("Mining...", waveTxn.hash); 
@@ -149,9 +149,40 @@ export default function App() {
     }
   }
 
+  // Listen for emitter events 
+  useEffect( () => {
+    let wavePortalContract; 
+
+    const onNewWave = (from, timestamp, message) => {
+      console.log("New wave: ", from, timestamp, message); 
+      setAllWaves( prevState => [
+           ...prevState, 
+           {
+             address: from, 
+             timestamp: new Date(timestamp * 1000), 
+             message: message
+           }, 
+          ]); 
+    }; 
+
+    if (window.ethereum) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum); 
+      const signer = provider.getSigner(); 
+
+      wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer); 
+      wavePortalContract.on("NewWave", onNewWave)
+    }
+
+    return () => {
+      if(wavePortalContract) {
+        wavePortalContract.off("NewWave", onNewWave)
+      }
+    }
+  })
+
   const wavesDisplay = allWaves.map( (wave, index) => {
     return (
-      <div key={index} style={{ backgroundColor: "OldLace", marginTop: "16px", padding: "8px" }}>
+      <div key={index} style={{ backgroundCol, or: "OldLace", marginTop: "16px", padding: "8px" }}>
           <div>Address: {wave.address}</div> 
           <div>Time: {wave.timestamp.toString()}</div> 
           <div>Message: {wave.message}</div>
@@ -205,6 +236,11 @@ export default function App() {
             </div>
           )
         }
+        
+        <div>
+           { wavesDisplay }
+        </div>
+
       </div>
     </div>
   );
