@@ -11,11 +11,16 @@ export default function App() {
   const [sucessfull, setSucessfull] = useState(false); 
   const [allWaves, setAllWaves] = useState([]); 
   const [mining, setMining] = useState(false); 
+  const [message, setMessage] = useState(""); 
+  const [metamaskInstall, setMetamaskInstall] = useState(false); 
+  const [prevMessages, setPrevMessages] = useState(false); 
 
   const contractAddress = "0x3412b425Cd05968DF71119C2B02deDe6e6CEDDA2"; 
   const contractABI = abi; 
 
-  const wave = async () => {
+  const wave = async (e) => { 
+    e.preventDefault(); 
+
     try {
       const { ethereum } = window; 
 
@@ -30,7 +35,7 @@ export default function App() {
 
         // Executing actual wave from the smart contract
         setLoading(true); 
-        const waveTxn = await wavePortalContract.wave("This is my first wave from a frontend!", { gasLimit: 300000 }); 
+        const waveTxn = await wavePortalContract.wave(message, { gasLimit: 300000 }); 
         setLoading(false); 
         setMining(true); 
         console.log("Mining...", waveTxn.hash); 
@@ -47,11 +52,13 @@ export default function App() {
 
         console.log("Ethereum object exists"); 
         console.log("Retrieved a total of: ", count.toNumber(), " waves"); 
+        setMessage(""); 
 
       } else {
         console.log("Ethereum object does not exist"); 
       }
     } catch (error) {
+      console.log(error)
     }
   }
 
@@ -59,10 +66,11 @@ export default function App() {
     try {
       const { ethereum } = window; 
 
-      if (!ethereum) {
-        console.log("Make sure you have metamask!")
+      if (!ethereum) { 
+        setMetamaskInstall(true); 
+        console.log("Make sure you have metamask installed")
       } else {
-        console.log("Ethereum from window object is found! "); 
+        console.log("Ethereum from window object is found!"); 
       }
 
       // See if we have authorization to the users wallet 
@@ -180,9 +188,16 @@ export default function App() {
     }
   })
 
+  // Handling input 
+  const handleChange = (event) => {
+    const {value} = event.target; 
+    setMessage(value); 
+  }
+ 
+
   const wavesDisplay = allWaves.map( (wave, index) => {
     return (
-      <div key={index} style={{ backgroundCol, or: "OldLace", marginTop: "16px", padding: "8px" }}>
+      <div key={index} style={{ backgroundColor: "grey", or: "OldLace", marginTop: "16px", padding: "8px" }}>
           <div>Address: {wave.address}</div> 
           <div>Time: {wave.timestamp.toString()}</div> 
           <div>Message: {wave.message}</div>
@@ -194,31 +209,55 @@ export default function App() {
     <div className="mainContainer">
 
       <div className="dataContainer">
-        <div className="header">
-        👋 Hey there!
-        </div>
-
-        <div className="bio">
-        I am Steve<br/>Connect your Ethereum wallet and wave at me!
-        </div>
-
-        <button className="waveButton" onClick={wave}>
-          Wave at Me
-        </button>
-
+        {
+          !currentAccount && (
+            <div className="intro">
+                  <h1>Get some Ether!</h1>
+                  <p>Kindly follow the prompts</p>
+            </div>
+          )
+        }
         {/* This button will render if there's no wallet connection */} 
         { 
-          !currentAccount && ( 
+          !currentAccount ? ( 
             !loading && (
-              <button className="waveButton" onClick={connectWallet}>
-                 connect wallet
-              </button>
+              <>  
+                <div className="connect-wallet">
+                   <p>Connect your wallet to continue using the web app</p>
+                </div>
+                <button className="waveButton" onClick={connectWallet}>
+                  connect wallet
+                </button>
+              </>  
           )      
+          ) : (
+            <>
+                <div className="header">
+                  Hey there!
+                </div>
+
+                <div className="bio">
+                  I am Steve <br/>Send me a intriuging message and stand a chance to win some ether 🤓! 
+                </div>
+                
+                <form className="form-input"> 
+                  <input type="text" className="message" value={message} name="message" onChange={handleChange} /> 
+                  <button type="submit" className="waveButton-wave" onClick={wave}>
+                      Send message
+                  </button>
+                </form>
+
+                <div className="checkprev-button" onClick={ () => setPrevMessages( current => !current)}>
+                  { prevMessages ? "Check" : "Hide" } previous messages 
+                </div>
+            </>
           )
         }
         {
           loading && (
-            <ReactLoading className="loader" type="spin" color="black" height={20} width={70} /> 
+            <>
+              <ReactLoading className="loader" type="spin" color="black" height={20} width={70} /> 
+            </>
           )
         }
         {
@@ -233,6 +272,13 @@ export default function App() {
           sucessfull && (
             <div className="successfull">
               Wallet connected sucessfully!
+            </div>
+          )
+        }
+        {
+          metamaskInstall && (
+            <div className="metamask-install">
+              <p>Warning! Kindly install metamask in order to continue using the application <br/> Check it out over <a href="https://metamask.io/" target="_blank">here</a></p>
             </div>
           )
         }

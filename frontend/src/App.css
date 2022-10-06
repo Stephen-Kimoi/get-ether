@@ -2,14 +2,20 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-top: 64px;
+  height: 100vh;
+  background-color: rgb(79, 79, 163);
 }
 
 .dataContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 600px;
+  width: 80%;
+  margin: 3rem;
+  padding: 50px;
+  border-radius: 10px;
+  background-color: rgb(209, 202, 202);
+  /* max-width: 600px; */
 }
 
 .header {
@@ -24,13 +30,28 @@
   margin-top: 16px;
 }
 
-.waveButton {
+.intro {
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center;
+}
+
+.intro h1 {
+  padding: 0.2rem;
+}
+
+.waveButton { 
+  background: rgb(79, 79, 163);
   cursor: pointer;
   margin-top: 16px;
   padding: 8px;
   border: 0;
   border-radius: 5px;
-  
+} 
+
+.waveButton:hover {
+  background: rgb(79, 79, 163, 0.9);
 }
 
 .loader {
@@ -56,4 +77,55 @@
 
 .mining-div .loader, .mining-div p {
   margin: 0px; 
+}
+
+.metamask-install {
+  background-color: rgb(209, 209, 99, 0.9); 
+  margin: 2rem;
+  border-radius: 10px;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+} 
+
+.metamask-install p {
+  text-align: center; 
+}
+
+.connect-wallet {
+  background: #8e9aaa; 
+  border-radius: 10px; 
+  padding: 0.5rem;
+  margin: 0.5rem;
+  text-align: center;
+}
+
+.form-input {
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+}
+
+.form-input input {
+  height: 22px; 
+  margin: 0.6rem;
+  border-radius: 5px;
+  width: 70%;
+  border: none;
+}
+
+.waveButton-wave {
+  background: rgb(79, 79, 163);
+  cursor: pointer;
+  padding: 8px;
+  border: 0;
+  border-radius: 5px;
+}
+
+.checkprev-button {
+  background: rgb(126, 126, 153);
+  cursor: pointer;
+  padding: 8px;
+  border: 0;
+  border-radius: 5px;
 }
