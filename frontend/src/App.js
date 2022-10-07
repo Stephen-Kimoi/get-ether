@@ -14,6 +14,7 @@ export default function App() {
   const [message, setMessage] = useState(""); 
   const [metamaskInstall, setMetamaskInstall] = useState(false); 
   const [prevMessages, setPrevMessages] = useState(false); 
+  const [noMessages, setNoMessages] = useState(false); 
 
   const contractAddress = "0x3412b425Cd05968DF71119C2B02deDe6e6CEDDA2"; 
   const contractABI = abi; 
@@ -193,14 +194,27 @@ export default function App() {
     const {value} = event.target; 
     setMessage(value); 
   }
- 
+
+  // Showing previous messages 
+  const showPreviousMessages = () => {
+     if (allWaves.length === 0) {
+       setNoMessages(true); 
+       setTimeout( () => {
+         setNoMessages(false); 
+       }, 5000); 
+       console.log("Opps no messages sent yet!")
+     } else {
+      setPrevMessages( current => !current)
+     }
+  }
+   
 
   const wavesDisplay = allWaves.map( (wave, index) => {
     return (
       <div key={index} className="prevMessages-div">
-          <div>Address: {wave.address}</div> 
-          <div>Time: {wave.timestamp.toString()}</div> 
-          <div>Message: {wave.message}</div>
+          <p>Address: {wave.address} <br/> Time: {wave.timestamp.toString()} <br/> Message: {wave.message} </p> 
+          {/* <div>Time: {wave.timestamp.toString()}</div> 
+          <div>Message: {wave.message}</div> */}
       </div>
     )
   })
@@ -247,7 +261,7 @@ export default function App() {
                   </button>
                 </form>
 
-                <button className="checkprev-button" onClick={ () => setPrevMessages( current => !current)}>
+                <button className="checkprev-button" onClick={ () => showPreviousMessages() }>
                   { prevMessages ? "Hide" : "Check" } previous messages 
                 </button>
             </>
@@ -282,12 +296,22 @@ export default function App() {
             </div>
           )
         }
+        {
+          noMessages && (
+            <div className="no-messages">
+               <p>Opps😶! No messages here yet</p>
+            </div>
+          )
+        }
         
         <div>
           {
             prevMessages && (
               <>
                 { wavesDisplay }
+                {/* <div className="prevMessages-div">
+                      
+                </div> */}
               </>
             )
           }
