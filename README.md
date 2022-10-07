@@ -1,13 +1,13 @@
-# Sample Hardhat Project
+# GET SOME ETHER
+This is a project that allows you to send me a message, the message gets stored in ethereum blockchain and you also stand a chance to win some ether! 
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+# UI 
+![Get some ether](./waveUI.png) 
 
-Try running some of the following tasks:
+# LIVE SITE LINK 
+You can interact with the site over [here]()
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.js
-```
+# CONTRIBUTORS 
+[Stephen Kimoi](https://kimoisteve.me/) 
+
+[Buildspace](https://buildspace.io/)
