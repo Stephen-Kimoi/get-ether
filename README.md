@@ -5,7 +5,7 @@ This is a project that allows you to send me a message, the message gets stored 
 ![Get some ether](./waveUI.png) 
 
 # LIVE SITE LINK 
-You can interact with the site over [here]()
+You can interact with the site over [here](https://get-ether.netlify.app/)
 
 # CONTRIBUTORS 
 [Stephen Kimoi](https://kimoisteve.me/) 
