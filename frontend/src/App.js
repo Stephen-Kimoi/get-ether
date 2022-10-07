@@ -197,7 +197,7 @@ export default function App() {
 
   const wavesDisplay = allWaves.map( (wave, index) => {
     return (
-      <div key={index} style={{ backgroundColor: "grey", or: "OldLace", marginTop: "16px", padding: "8px" }}>
+      <div key={index} className="prevMessages-div">
           <div>Address: {wave.address}</div> 
           <div>Time: {wave.timestamp.toString()}</div> 
           <div>Message: {wave.message}</div>
@@ -247,9 +247,9 @@ export default function App() {
                   </button>
                 </form>
 
-                <div className="checkprev-button" onClick={ () => setPrevMessages( current => !current)}>
-                  { prevMessages ? "Check" : "Hide" } previous messages 
-                </div>
+                <button className="checkprev-button" onClick={ () => setPrevMessages( current => !current)}>
+                  { prevMessages ? "Hide" : "Check" } previous messages 
+                </button>
             </>
           )
         }
@@ -284,7 +284,13 @@ export default function App() {
         }
         
         <div>
-           { wavesDisplay }
+          {
+            prevMessages && (
+              <>
+                { wavesDisplay }
+              </>
+            )
+          }
         </div>
 
       </div>

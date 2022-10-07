@@ -63,7 +63,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 30px;
+  height: 60px;
   background-color: rgba(66, 177, 66, 0.5);
   border-radius: 5px;
 }
@@ -128,4 +128,6 @@
   padding: 8px;
   border: 0;
   border-radius: 5px;
+  width: 30%; 
+  margin: 0 auto;
 }
