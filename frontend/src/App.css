@@ -151,9 +151,21 @@
   background: rgb(184, 184, 190);
   border-radius: 5px;
   width: 50%; 
-
+  overflow-x: scroll;
+  margin: 10px;
 }
 
+.prevMessages-contianer {
+  height: 60%; 
+  overflow-y: scroll;
+}
+
+@media all and (max-width: 480px) { 
+  .prevMessages-contianer {
+    height: 100px; 
+    overflow-y: scroll;
+  }
+}
 
 @media all and (max-width: 480px) { 
   .prevMessages-div {
@@ -173,4 +185,10 @@
 
 .no-messages p {
   text-align: center;
+}
+
+@media all and (max-width: 480px) { 
+  .no-messages {
+    width: 80%;
+  }
 }

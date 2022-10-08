@@ -12,7 +12,7 @@ export default function App() {
   const [allWaves, setAllWaves] = useState([]); 
   const [mining, setMining] = useState(false); 
   const [message, setMessage] = useState(""); 
-  const [metamaskInstall, setMetamaskInstall] = useState(false); 
+  const [metamaskInstall, setMetamaskInstall] = useState(true); 
   const [prevMessages, setPrevMessages] = useState(false); 
   const [noMessages, setNoMessages] = useState(false); 
 
@@ -232,39 +232,41 @@ export default function App() {
           )
         }
         {/* This button will render if there's no wallet connection */} 
-        { 
-          !currentAccount ? ( 
-            !loading && (
-              <>  
-                <div className="connect-wallet">
-                   <p>Connect your wallet to continue using the web app</p>
-                </div>
-                <button className="waveButton" onClick={connectWallet}>
-                  connect wallet
-                </button>
-              </>  
-          )      
-          ) : (
-            <>
-                <div className="header">
-                  Hey there!
-                </div>
+        {
+          !metamaskInstall && (
+                !currentAccount ? ( 
+                  !loading && (
+                    <>  
+                      <div className="connect-wallet">
+                        <p>Connect your wallet to continue using the web app</p>
+                      </div>
+                      <button className="waveButton" onClick={connectWallet}>
+                        connect wallet
+                      </button>
+                    </>  
+                )      
+                ) : (
+                  <>
+                      <div className="header">
+                        Hey there!
+                      </div>
 
-                <div className="bio">
-                  I am Steve <br/>Send me a intriuging message and stand a chance to win some ether 🤓! 
-                </div>
-                
-                <form className="form-input"> 
-                  <input type="text" className="message" value={message} name="message" onChange={handleChange} /> 
-                  <button type="submit" className="waveButton-wave" onClick={wave}>
-                      Send message
-                  </button>
-                </form>
+                      <div className="bio">
+                        I am Steve <br/>Send me a intriuging message and stand a chance to win some ether 🤓! 
+                      </div>
+                      
+                      <form className="form-input"> 
+                        <input type="text" className="message" value={message} name="message" onChange={handleChange} /> 
+                        <button type="submit" className="waveButton-wave" onClick={wave}>
+                            Send message
+                        </button>
+                      </form>
 
-                <button className="checkprev-button" onClick={ () => showPreviousMessages() }>
-                  { prevMessages ? "Hide" : "Check" } previous messages 
-                </button>
-            </>
+                      <button className="checkprev-button" onClick={ () => showPreviousMessages() }>
+                        { prevMessages ? "Hide" : "Check" } previous messages 
+                      </button>
+                  </>
+                )
           )
         }
         {
@@ -295,6 +297,18 @@ export default function App() {
               <p>Warning! Kindly install metamask in order to continue using the application <br/> Check it out over <a href="https://metamask.io/" target="_blank">here</a></p>
             </div>
           )
+        } 
+        {
+          !mining && (
+            prevMessages && (
+              <div className="prevMessages-container">
+                { wavesDisplay }
+                {/* <div className="prevMessages-div">
+                      
+                </div> */}
+              </div>
+            )
+          )
         }
         {
           noMessages && (
@@ -307,12 +321,12 @@ export default function App() {
         <div>
           {
             prevMessages && (
-              <>
+              <div className="prevMessages-container">
                 { wavesDisplay }
                 {/* <div className="prevMessages-div">
                       
                 </div> */}
-              </>
+              </div>
             )
           }
         </div>
