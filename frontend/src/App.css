@@ -67,6 +67,11 @@
   height: 60px;
   background-color: rgba(66, 177, 66, 0.5);
   border-radius: 5px;
+  padding: 1.5rem;
+} 
+
+.successfull p {
+  text-align: center;
 }
 
 .mining-div {
@@ -148,17 +153,20 @@
     }
 }
 
+.prevMessages-container {
+  height: 60vh; 
+  overflow-y: scroll;
+  margin: 40px auto;
+  border: 2px solid #8e9aaa;
+  border-radius: 10px;
+}
+
 .prevMessages-div { 
   background: rgb(184, 184, 190);
   border-radius: 5px;
-  width: 50%; 
+  width: 70%; 
   overflow-x: scroll;
-  margin: 10px;
-}
-
-.prevMessages-contianer {
-  height: 60%; 
-  overflow-y: scroll;
+  margin: 10px auto;
 }
 
 @media all and (max-width: 480px) { 
