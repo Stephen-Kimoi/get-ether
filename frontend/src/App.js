@@ -12,9 +12,10 @@ export default function App() {
   const [allWaves, setAllWaves] = useState([]); 
   const [mining, setMining] = useState(false); 
   const [message, setMessage] = useState(""); 
-  const [metamaskInstall, setMetamaskInstall] = useState(true); 
+  const [metamaskInstall, setMetamaskInstall] = useState(false); 
   const [prevMessages, setPrevMessages] = useState(false); 
   const [noMessages, setNoMessages] = useState(false); 
+  const [messageSuccessful, setMessageSuccessful] = useState(false); 
 
   const contractAddress = "0x3412b425Cd05968DF71119C2B02deDe6e6CEDDA2"; 
   const contractABI = abi; 
@@ -44,6 +45,11 @@ export default function App() {
         await waveTxn.wait(); 
         console.log("Mined ---", waveTxn.hash); 
         setMining(false); 
+        setMessageSuccessful(true); 
+
+        setTimeout( () => {
+          setMessageSuccessful(false); 
+        }, 5000)
 
         // Retrieve the total waves
         setLoading(true); 
@@ -197,24 +203,27 @@ export default function App() {
 
   // Showing previous messages 
   const showPreviousMessages = () => {
-     if (allWaves.length === 0) {
-       setNoMessages(true); 
-       setTimeout( () => {
-         setNoMessages(false); 
-       }, 5000); 
-       console.log("Opps no messages sent yet!")
-     } else {
-      setPrevMessages( current => !current)
-     }
+    //  if (allWaves.length === 0) {
+    //    setNoMessages(true); 
+    //    setTimeout( () => {
+    //      setNoMessages(false); 
+    //    }, 5000); 
+    //    console.log("Opps no messages sent yet!")
+    //  } else {
+    //   setPrevMessages( current => !current)
+    //  } 
+    setPrevMessages( current => !current)
   }
    
 
   const wavesDisplay = allWaves.map( (wave, index) => {
     return (
       <div key={index} className="prevMessages-div">
-          <p>Address: {wave.address} <br/> Time: {wave.timestamp.toString()} <br/> Message: {wave.message} </p> 
-          {/* <div>Time: {wave.timestamp.toString()}</div> 
-          <div>Message: {wave.message}</div> */}
+          <p>
+            Address: {wave.address} <br/> 
+            Time: {wave.timestamp.toString()} <br/> 
+            Message: {wave.message} 
+          </p> 
       </div>
     )
   })
@@ -285,9 +294,16 @@ export default function App() {
           )
         }
         {
+          messageSuccessful && (
+            <div className="successfull">
+               <p>Message sent successfully! Check out if you were lucky to get some ether 😎!</p>
+            </div>
+          )
+        }
+        {
           sucessfull && (
             <div className="successfull">
-              Wallet connected sucessfully!
+              <p>Wallet connected sucessfully!</p>
             </div>
           )
         }
@@ -298,16 +314,43 @@ export default function App() {
             </div>
           )
         } 
-        {
-          !mining && (
-            prevMessages && (
-              <div className="prevMessages-container">
-                { wavesDisplay }
-                {/* <div className="prevMessages-div">
-                      
-                </div> */}
-              </div>
-            )
+        { 
+          !loading && (
+              !mining && (
+                prevMessages && (
+                  <div className="prevMessages-container">
+                    {/* { wavesDisplay } */}
+                    <div className="prevMessages-div">
+                      <p>
+                        Address: 0x13Ef924EB7408e90278B86b659960AFb00DDae61
+                        <br/>Time: Sat Oct 08 2022 10:54:00 GMT+0300 (East Africa Time)
+                        <br/>Message: This is an intruiging message
+                      </p>
+                    </div>
+                    <div className="prevMessages-div">
+                      <p>
+                        Address: 0x13Ef924EB7408e90278B86b659960AFb00DDae61
+                        <br/>Time: Sat Oct 08 2022 10:54:00 GMT+0300 (East Africa Time)
+                        <br/>Message: This is an intruiging message
+                      </p>
+                    </div>
+                    <div className="prevMessages-div">
+                      <p>
+                        Address: 0x13Ef924EB7408e90278B86b659960AFb00DDae61
+                        <br/>Time: Sat Oct 08 2022 10:54:00 GMT+0300 (East Africa Time)
+                        <br/>Message: This is an intruiging message
+                      </p>
+                    </div>
+                    <div className="prevMessages-div">
+                      <p>
+                        Address: 0x13Ef924EB7408e90278B86b659960AFb00DDae61
+                        <br/>Time: Sat Oct 08 2022 10:54:00 GMT+0300 (East Africa Time)
+                        <br/>Message: This is an intruiging message
+                      </p>
+                    </div>
+                  </div>
+                )
+              )
           )
         }
         {
@@ -318,18 +361,20 @@ export default function App() {
           )
         }
         
-        <div>
-          {
-            prevMessages && (
-              <div className="prevMessages-container">
-                { wavesDisplay }
-                {/* <div className="prevMessages-div">
-                      
-                </div> */}
+        {/* {
+          prevMessages && (
+            <div className="prevMessages-container">
+              {/* { wavesDisplay }
+              <div className="prevMessages-div">
+                  <p>
+                    Address: 0x13Ef924EB7408e90278B86b659960AFb00DDae61
+                    <br/>Time: Sat Oct 08 2022 10:54:00 GMT+0300 (East Africa Time)
+                    <br/>Message: This is an intruiging message
+                  </p>
               </div>
-            )
-          }
-        </div>
+            </div>
+          )
+        } */}
 
       </div>
     </div>
