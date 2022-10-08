@@ -203,16 +203,15 @@ export default function App() {
 
   // Showing previous messages 
   const showPreviousMessages = () => {
-    //  if (allWaves.length === 0) {
-    //    setNoMessages(true); 
-    //    setTimeout( () => {
-    //      setNoMessages(false); 
-    //    }, 5000); 
-    //    console.log("Opps no messages sent yet!")
-    //  } else {
-    //   setPrevMessages( current => !current)
-    //  } 
-    setPrevMessages( current => !current)
+     if (allWaves.length === 0) {
+       setNoMessages(true); 
+       setTimeout( () => {
+         setNoMessages(false); 
+       }, 5000); 
+       console.log("Opps no messages sent yet!")
+     } else {
+      setPrevMessages( current => !current)
+     } 
   }
    
 
@@ -319,35 +318,7 @@ export default function App() {
               !mining && (
                 prevMessages && (
                   <div className="prevMessages-container">
-                    {/* { wavesDisplay } */}
-                    <div className="prevMessages-div">
-                      <p>
-                        Address: 0x13Ef924EB7408e90278B86b659960AFb00DDae61
-                        <br/>Time: Sat Oct 08 2022 10:54:00 GMT+0300 (East Africa Time)
-                        <br/>Message: This is an intruiging message
-                      </p>
-                    </div>
-                    <div className="prevMessages-div">
-                      <p>
-                        Address: 0x13Ef924EB7408e90278B86b659960AFb00DDae61
-                        <br/>Time: Sat Oct 08 2022 10:54:00 GMT+0300 (East Africa Time)
-                        <br/>Message: This is an intruiging message
-                      </p>
-                    </div>
-                    <div className="prevMessages-div">
-                      <p>
-                        Address: 0x13Ef924EB7408e90278B86b659960AFb00DDae61
-                        <br/>Time: Sat Oct 08 2022 10:54:00 GMT+0300 (East Africa Time)
-                        <br/>Message: This is an intruiging message
-                      </p>
-                    </div>
-                    <div className="prevMessages-div">
-                      <p>
-                        Address: 0x13Ef924EB7408e90278B86b659960AFb00DDae61
-                        <br/>Time: Sat Oct 08 2022 10:54:00 GMT+0300 (East Africa Time)
-                        <br/>Message: This is an intruiging message
-                      </p>
-                    </div>
+                    { wavesDisplay }
                   </div>
                 )
               )
@@ -360,21 +331,6 @@ export default function App() {
             </div>
           )
         }
-        
-        {/* {
-          prevMessages && (
-            <div className="prevMessages-container">
-              {/* { wavesDisplay }
-              <div className="prevMessages-div">
-                  <p>
-                    Address: 0x13Ef924EB7408e90278B86b659960AFb00DDae61
-                    <br/>Time: Sat Oct 08 2022 10:54:00 GMT+0300 (East Africa Time)
-                    <br/>Message: This is an intruiging message
-                  </p>
-              </div>
-            </div>
-          )
-        } */}
 
       </div>
     </div>
